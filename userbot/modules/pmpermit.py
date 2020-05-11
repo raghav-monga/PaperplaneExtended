@@ -17,7 +17,7 @@ from userbot.events import register
 
 # ========================= CONSTANTS ============================
 UNAPPROVED_MSG = (
-    "`HeY! This is Nuub's userbot.\n\n`"
+    "`HeY! This is Sammy's userbot.\n\n`"
     "`Don't hesitate. This is an automated mesaage.\n\n`"
     "`I haven't approved you to PM yet.`"
     "`Please wait for me to look in your background, I mostly approve PMs.\n\n`"
