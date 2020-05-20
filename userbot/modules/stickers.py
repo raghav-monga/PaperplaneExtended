@@ -237,7 +237,7 @@ async def kang(args):
                 await bot.send_read_acknowledge(conv.chat_id)
 
         await args.edit(f"**Added to inventory**\
-            \nThis Sticker's Soul is [here](t.me/addstickers/{packname})",
+            \nThis Sticker is [here](t.me/addstickers/{packname})",
                         parse_mode='md')
 
 
