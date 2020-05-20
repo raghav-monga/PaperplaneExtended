@@ -149,6 +149,6 @@ async def fetch_info(replied_user, event):
 
 CMD_HELP.update({
     "User Info":
-    ".info <username> or reply to someones text with .info\
+    ".abt <username> or reply to someones text with .abt\
     \nUsage: Gets info of an user."
 })
