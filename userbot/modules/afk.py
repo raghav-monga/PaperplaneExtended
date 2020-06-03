@@ -3,6 +3,8 @@
 # Licensed under the Raphielscape Public License, Version 1.d (the "License");
 # you may not use this file except in compliance with the License.
 # All Credits to https://t.me/azrim89 for timestamp.
+# All Credits to https://t.me/Devp73 for Offline stamps..
+#
 
 """ Userbot module which contains afk-related commands """
 
@@ -15,7 +17,7 @@ from telethon.events import StopPropagation
 from telethon.tl.functions.account import UpdateProfileRequest
 
 from userbot import (AFKREASON, COUNT_MSG, CMD_HELP, ISAFK, BOTLOG,
-                     BOTLOG_CHATID, USERS, PM_AUTO_BAN, bot)
+                     BOTLOG_CHATID, USERS, PM_AUTO_BAN, bot, ALIVE_NAME, is_redis_alive)
 from userbot.events import register
 
 try:
@@ -51,6 +53,10 @@ AFKSTR = [
     "`I am not here right now...\nbut if I was...\n\nwouldn't that be awesome?`",
 ]
 
+# ================= CONSTANT =================
+DEFAULTUSER = str(ALIVE_NAME) if ALIVE_NAME else uname().node
+AFKSK = str(choice(AFKSTR))
+# ============================================
 
 global USER_AFK  # pylint:disable=E0602
 global afk_time  # pylint:disable=E0602
