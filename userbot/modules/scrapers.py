@@ -263,8 +263,7 @@ async def _(event):
         await event.edit("Text: **{}**\n\nMeaning: **{}**\n\nExample: __{}__".format(mean.word, mean.definition, mean.example))
     except asyncurban.WordNotFoundError:
         await event.edit("No result found for **" + word + "**")
-       
-               
+
 
 @register(outgoing=True, pattern=r"^.tts(?: |$)([\s\S]*)")
 async def text_to_speech(query):
@@ -415,40 +414,37 @@ async def imdb(e):
         await e.edit("Plox enter **Valid movie name** kthx")
 
 
-@register(outgoing=True, pattern="^.tr(?: |$)(.*)")
-async def _(event):
-    if event.fwd_from:
-        return
-    if "trim" in event.raw_text:
-        # https://t.me/c/1220993104/192075
-        return
-    input_str = event.pattern_match.group(1)
-    if event.reply_to_msg_id:
-        previous_message = await event.get_reply_message()
-        text = previous_message.message
-        lan = input_str or "en"
-    elif "|" in input_str:
-        lan, text = input_str.split("|")
-    else:
-        await event.edit("`.tr LanguageCode` as reply to a message")
-        return
-    text = emoji.demojize(text.strip())
-    lan = lan.strip()
+@register(outgoing=True, pattern=r"^.trt(?: |$)([\s\S]*)")
+async def translateme(trans):
+    """ For .trt command, translate the given text using Google Translate. """
     translator = Translator()
+    textx = await trans.get_reply_message()
+    message = trans.pattern_match.group(1)
+    if message:
+        pass
+    elif textx:
+        message = textx.text
+    else:
+        await trans.edit("`Give a text or reply to a message to translate!`")
+        return
+
     try:
-        translated = translator.translate(text, dest=lan)
-        after_tr_text = translated.text
-        # TODO: emojify the :
-        # either here, or before translation
-        output_str = """**TRANSLATED** from {} to {}
-{}""".format(
-            translated.src,
-            lan,
-            after_tr_text
+        reply_text = translator.translate(deEmojify(message), dest=TRT_LANG)
+    except ValueError:
+        await trans.edit("Invalid destination language.")
+        return
+
+    source_lan = LANGUAGES[f'{reply_text.src.lower()}']
+    transl_lan = LANGUAGES[f'{reply_text.dest.lower()}']
+    reply_text = f"From **{source_lan.title()}**\nTo **{transl_lan.title()}:**\n\n{reply_text.text}"
+
+    await trans.edit(reply_text)
+    if BOTLOG:
+        await trans.client.send_message(
+            BOTLOG_CHATID,
+            f"Translated some {source_lan.title()} stuff to {transl_lan.title()} just now.",
         )
-        await event.edit(output_str)
-    except Exception as exc:
-        await event.edit(str(exc))
+
 
 @register(pattern=".lang (trt|tts) (.*)", outgoing=True)
 async def lang(value):
